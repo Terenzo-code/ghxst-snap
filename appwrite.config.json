@@ -1,0 +1,326 @@
+{
+  "projectId": "YOUR_PROJECT_ID",
+  "projectName": "Ghxst Snap",
+  "endpoint": "https://cloud.appwrite.io/v1",
+  "settings": {
+    "services": {
+      "account": true,
+      "databases": true,
+      "storage": true
+    }
+  },
+  "databases": [
+    {
+      "$id": "ghxst-db",
+      "name": "Ghxst Snap DB",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "users",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")"
+      ],
+      "databaseId": "ghxst-db",
+      "name": "users",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "accountId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "username",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "email",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 320,
+          "default": null
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 2000,
+          "default": null
+        },
+        {
+          "key": "imageId",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "bio",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 2200,
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "key": "accountId_idx",
+          "type": "key",
+          "attributes": [
+            "accountId"
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "key": "username_idx",
+          "type": "key",
+          "attributes": [
+            "username"
+          ],
+          "orders": [
+            "ASC"
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "posts",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")"
+      ],
+      "databaseId": "ghxst-db",
+      "name": "posts",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "caption",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 2200,
+          "default": null
+        },
+        {
+          "key": "tags",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 2000,
+          "default": null
+        },
+        {
+          "key": "imageId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "location",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 2200,
+          "default": null
+        },
+        {
+          "key": "creator",
+          "type": "relationship",
+          "relatedCollection": "users",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "posts",
+          "onDelete": "cascade",
+          "required": true
+        }
+      ],
+      "indexes": [
+        {
+          "key": "caption_fulltext",
+          "type": "fulltext",
+          "attributes": [
+            "caption"
+          ],
+          "orders": [
+            "ASC"
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "saves",
+      "$permissions": [
+        "create(\"users\")"
+      ],
+      "databaseId": "ghxst-db",
+      "name": "saves",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "user",
+          "type": "relationship",
+          "relatedCollection": "users",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "save",
+          "onDelete": "cascade",
+          "required": true
+        },
+        {
+          "key": "post",
+          "type": "relationship",
+          "relatedCollection": "posts",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "save",
+          "onDelete": "cascade",
+          "required": true
+        }
+      ]
+    },
+    {
+      "$id": "follows",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")"
+      ],
+      "databaseId": "ghxst-db",
+      "name": "follows",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "follower",
+          "type": "relationship",
+          "relatedCollection": "users",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "following",
+          "onDelete": "cascade",
+          "required": true
+        },
+        {
+          "key": "following",
+          "type": "relationship",
+          "relatedCollection": "users",
+          "relationType": "manyToOne",
+          "twoWay": true,
+          "twoWayKey": "followers",
+          "onDelete": "cascade",
+          "required": true
+        }
+      ]
+    },
+    {
+      "$id": "likes",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")"
+      ],
+      "databaseId": "ghxst-db",
+      "name": "likes",
+      "enabled": true,
+      "documentSecurity": true,
+      "attributes": [
+        {
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "postId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "key": "postId_idx",
+          "type": "key",
+          "attributes": [
+            "postId"
+          ],
+          "orders": [
+            "ASC"
+          ]
+        },
+        {
+          "key": "userId_idx",
+          "type": "key",
+          "attributes": [
+            "userId"
+          ],
+          "orders": [
+            "ASC"
+          ]
+        }
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "media",
+      "name": "media",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")"
+      ],
+      "fileSecurity": true,
+      "enabled": true,
+      "maximumFileSize": 15728640,
+      "allowedFileExtensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp"
+      ],
+      "compression": "gzip",
+      "encryption": true,
+      "antivirus": true
+    }
+  ]
+}
