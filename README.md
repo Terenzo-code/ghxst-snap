@@ -13,7 +13,9 @@ posts — built with React, TypeScript, and Appwrite.
   2. Or just drag-and-drop an image into this file on GitHub once it's
      pushed — GitHub will upload it and generate the right markdown for you.
 -->
-![Ghxst Snap home feed](docs/screenshot-home.png)
+
+![Ghxst Snap home feed](docs/Screenshot-feed.png)
+![Ghxst Snap profile feed](docs/Screenshot-profile.png)
 
 ## Features
 
